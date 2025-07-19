@@ -1,0 +1,1 @@
+# Karmic Constraint Encoding mechanics
