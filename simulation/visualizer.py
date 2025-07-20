@@ -3,33 +3,38 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class SymbolicVisualizer:
-    def __init__(self, figsize=(6, 6)):
-        self.figsize = figsize
+    def __init__(self):
+        self.history = []
 
-    def plot_symbolic_states(self, states, title='Symbolic Phase Space', t=0):
-        """
-        Visualizes symbolic states in a 2D projection: x vs memory magnitude.
-        """
-        x_vals = [state.x for state in states]
-        m_mags = [np.linalg.norm(state.m) for state in states]
+    def record(self, states):
+        # Store x and ||m|| for each symbolic state
+        snapshot = [(state.x, np.linalg.norm(state.m)) for state in states]
+        self.history.append(snapshot)
 
-        plt.figure(figsize=self.figsize)
-        plt.scatter(x_vals, m_mags, c='blue', alpha=0.7)
-        plt.xlabel('Symbol x')
-        plt.ylabel('||Memory||')
-        plt.title(f'{title} at t={t}')
+    def plot(self, collapsed_flags=None, step=None, save=False):
+        plt.figure(figsize=(8, 6))
+        colors = []
+
+        # Plot all previous steps as faint traces
+        for t, snapshot in enumerate(self.history[:-1]):
+            xs, ms = zip(*snapshot)
+            plt.scatter(xs, ms, color='lightgray', alpha=0.3, s=20)
+
+        # Plot current state with color
+        if self.history:
+            xs, ms = zip(*self.history[-1])
+            if collapsed_flags is None:
+                colors = ['blue'] * len(xs)
+            else:
+                colors = ['red' if c else 'blue' for c in collapsed_flags]
+            plt.scatter(xs, ms, c=colors, s=60, edgecolor='black', linewidths=0.5)
+
+        plt.xlabel('Symbolic Identity (x)')
+        plt.ylabel('Memory Magnitude (||m||)')
+        plt.title(f'Symbolic State Space at Step {step if step is not None else len(self.history)}')
         plt.grid(True)
-        plt.show()
 
-    def plot_collapse(self, collapse_flags, title='Collapse Events Over Time'):
-        """
-        Plots binary collapse events across simulation time steps.
-        """
-        plt.figure(figsize=self.figsize)
-        plt.plot(collapse_flags, 'ro-', label='Collapse Detected')
-        plt.xlabel('Time Step')
-        plt.ylabel('Collapse (1=True, 0=False)')
-        plt.title(title)
-        plt.legend()
-        plt.grid(True)
-        plt.show()
+        if save:
+            plt.savefig(f"symbolic_step_{step:03d}.png", dpi=150)
+        else:
+            plt.show()

@@ -52,12 +52,26 @@ for t in range(timesteps):
 
     # Check for collapse
     grads = [gradient_func(state)[:2] for state in ps.states]  # use x and m only
-    collapsed = any(np.linalg.norm(np.concatenate([np.atleast_1d(g[0]), g[1]])) > ps.theta for g in grads)
-    collapse_flags.append(1 if collapsed else 0)
+    collapsed_flags = [
+        np.linalg.norm(np.concatenate([np.atleast_1d(g[0]), g[1]])) > ps.theta
+        for g in grads
+    ]
+    collapse_flags.append(any(collapsed_flags))
 
     # Step forward
     ps.step(gradient_func)
-    viz.plot_symbolic_states(ps.states, t=t)
 
-# Visualize collapse timeline
-viz.plot_collapse(collapse_flags)
+    # Record + plot
+    viz.record(ps.states)
+    viz.plot(collapsed_flags=collapsed_flags, step=t)
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 3))
+plt.plot(collapse_flags, label='Collapse Detected')
+plt.xlabel('Timestep')
+plt.ylabel('Collapse')
+plt.title('Collapse Over Time')
+plt.grid(True)
+plt.legend()
+plt.show()
