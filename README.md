@@ -6,7 +6,7 @@
 
 ---
 
-## 🧠 Overview
+## Overview
 
 **New Kind of Chaos** is an interactive simulation engine designed to explore symbolic attractor dynamics in recursive cognitive systems. Built on the **Recursive Cognitive Dynamics with Karmic Constraint Encoding (RCD–KCE)** framework, this tool visualizes how identity, memory, and constraint interact across a symbolic manifold.
 
