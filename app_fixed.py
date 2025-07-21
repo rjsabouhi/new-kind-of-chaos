@@ -2,14 +2,17 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
+import imageio.v2 as imageio
+import io
 
 from simulation.phase_space import PhaseSpace, SymbolicState
 from simulation.constraint import KarmicConstraintField
 from simulation.attractor import Attractor
 from simulation.observer import Observer
 from simulation.visualizer import SymbolicVisualizer
+from animator import SymbolicAnimator
 
-# Title
 st.title("New Kind of Chaos: Recursive Symbolic Simulation")
 
 # Sidebar Controls
@@ -22,7 +25,6 @@ observer_strength = st.sidebar.slider("Observer Influence", 0.0, 1.0, 0.1, 0.05)
 if st.button("Run Simulation"):
     st.write("✅ Simulation started...")
 
-    # Initialize components
     ps = PhaseSpace(theta=theta)
     kce = KarmicConstraintField()
     viz = SymbolicVisualizer()
@@ -70,10 +72,14 @@ if st.button("Run Simulation"):
         ps.step(gradient_func)
         viz.record(ps.states)
 
-        # Optional: live feedback per step
         st.text(f"Timestep {t+1} completed")
 
-    # Plot the final symbolic state
+    st.session_state["viz_history"] = viz.history
+    st.session_state["collapse_flags"] = collapse_flags
+
+    anim = SymbolicAnimator(history=viz.history)
+
+    # Final plot
     st.subheader("Symbolic Identity Dynamics")
     fig, ax = plt.subplots(figsize=(8, 6))
     for t_h, snapshot in enumerate(viz.history[:-1]):
@@ -82,15 +88,23 @@ if st.button("Run Simulation"):
 
     if viz.history:
         xs, ms = zip(*viz.history[-1])
-        colors = ['red' if flag else 'blue' for flag in collapsed_flags]
-        ax.scatter(xs, ms, c=colors, s=60, edgecolor='black', linewidths=0.5)
+        color = 'red' if collapse_flags[-1] else 'blue'
+        ax.scatter(xs, ms, c=color, s=60, edgecolor='black', linewidths=0.5)
+
+
     ax.set_xlabel('Symbolic Identity (x)')
     ax.set_ylabel('Memory Magnitude (||m||)')
     ax.set_title('Symbolic State at Final Timestep')
     ax.grid(True)
     st.pyplot(fig)
 
-    # Collapse timeline
+    # Midpoint
+    st.subheader("Symbolic State at Midpoint")
+    mid = len(viz.history) // 2
+    fig_mid = anim.frame(mid, show=False)
+    st.pyplot(fig_mid)
+
+    # Collapse Timeline
     st.subheader("Collapse Timeline")
     fig2, ax2 = plt.subplots(figsize=(8, 3))
     ax2.plot(collapse_flags, label='Collapse Detected')
@@ -100,3 +114,21 @@ if st.button("Run Simulation"):
     ax2.grid(True)
     ax2.legend()
     st.pyplot(fig2)
+
+# Export GIF using persistent state
+if "viz_history" in st.session_state:
+    anim = SymbolicAnimator(history=st.session_state["viz_history"])
+
+    if st.button("Export Animation as GIF"):
+        tmp_gif = "symbolic_evolution.gif"
+        anim.save_gif(tmp_gif)
+
+        with open(tmp_gif, "rb") as f:
+            st.download_button(
+                label="Download GIF",
+                data=f,
+                file_name="symbolic_evolution.gif",
+                mime="image/gif"
+            )
+else:
+    st.warning("Run the simulation first before exporting animation.")
