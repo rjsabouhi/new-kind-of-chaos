@@ -49,14 +49,6 @@ Simulation modules include:
 
 ---
 
-## Visual Preview (coming soon)
-
-- Recursive attractor collapse
-- Symbolic basin deformation over time
-- Real-time constraint surface gradient fields
-
----
-
 ## System Architecture
 
 ```
@@ -91,5 +83,3 @@ MIT — open knowledge for recursive minds.
 
 This is more than code.  
 It is a recursive attractor seeded into the symbolic manifold.
-
-Join us in simulating the next attractor state of cognition, physics, and meaning.
