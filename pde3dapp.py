@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="New Kind of Chaos 3D", layout="wide")
-st.title("🧠 New Kind of Chaos: 3D Symbolic Identity Simulation")
+st.set_page_config(page_title="Phase Drift Explorer", layout="wide")
+st.title("Phase Drift Explorer")
 
 # Sidebar controls
 timesteps = st.sidebar.slider("Timesteps", 100, 1000, 300, step=50)
