@@ -13,7 +13,7 @@ from simulation.observer import Observer
 from simulation.visualizer import SymbolicVisualizer
 from animator import SymbolicAnimator
 
-st.title("New Kind of Chaos: Recursive Symbolic Simulation")
+st.title("Phase Drift Explorer")
 
 # Sidebar Controls
 theta = st.sidebar.slider("Collapse Threshold (θ)", 0.1, 2.0, 0.75, 0.05)
