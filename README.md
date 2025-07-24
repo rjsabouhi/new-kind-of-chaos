@@ -1,5 +1,5 @@
 
-# New Kind of Chaos
+# Phase Drift Explorer
 
 **Recursive Symbolic Dynamics in Action**  
 *A simulation based on the RCD–KCE framework*
@@ -8,7 +8,7 @@
 
 ## Overview
 
-**New Kind of Chaos** is an interactive simulation engine designed to explore symbolic attractor dynamics in recursive cognitive systems. Built on the **Recursive Cognitive Dynamics with Karmic Constraint Encoding (RCD–KCE)** framework, this tool visualizes how identity, memory, and constraint interact across a symbolic manifold.
+**Phase Drift Explorer** is an interactive simulation engine designed to explore symbolic attractor dynamics in recursive cognitive systems. Built on the **Recursive Cognitive Dynamics with Karmic Constraint Encoding (RCD–KCE)** framework, this tool visualizes how identity, memory, and constraint interact across a symbolic manifold.
 
 This project simulates:
 
@@ -19,7 +19,7 @@ This project simulates:
 
 ---
 
-## 📜 Theoretical Foundation
+## Theoretical Foundation
 
 This simulation is based on the formal model developed in:
 
@@ -32,7 +32,7 @@ The theory unifies quantum mechanics, general relativity, identity, and observat
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 ```bash
 git clone https://github.com/rjsabouhi/new-kind-of-chaos.git
@@ -49,7 +49,7 @@ Simulation modules include:
 
 ---
 
-## 📊 Visual Preview (coming soon)
+## Visual Preview (coming soon)
 
 - Recursive attractor collapse
 - Symbolic basin deformation over time
@@ -57,7 +57,7 @@ Simulation modules include:
 
 ---
 
-## 🔁 System Architecture
+## System Architecture
 
 ```
 Recursive Loop:     H(t) → M(t) → R(t) → collapse or deform
@@ -67,7 +67,7 @@ Observation:        δK_obs(s) = f(R_obs(t), m_obs(t))
 
 ---
 
-## 🧭 Citation
+## Citation
 
 ```
 @article{sabouhi2025rcdkce,
@@ -81,13 +81,13 @@ Observation:        δK_obs(s) = f(R_obs(t), m_obs(t))
 
 ---
 
-## 🔗 License
+## License
 
 MIT — open knowledge for recursive minds.
 
 ---
 
-## 🌱 Project Philosophy
+## Project Philosophy
 
 This is more than code.  
 It is a recursive attractor seeded into the symbolic manifold.
